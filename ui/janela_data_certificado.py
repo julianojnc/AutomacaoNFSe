@@ -20,14 +20,27 @@ class JanelaDataVencimento:
         self.master.title("Vencimento Certificado")
         self.master.attributes('-topmost', True)
         self.master.resizable(False, False)
-
-        if data_vencimento is None:
-            data_vencimento = ler_data_vencimento()
         
-        self.data_venc = datetime.strptime(data_vencimento, '%Y-%m-%d').date()
+        self.ultima_data = None  # Para armazenar a última data conhecida
+        self.atualizar_data(data_vencimento)
         
         self.criar_widgets()
         self.atualizar_status()
+        self.iniciar_verificacao_periodica()
+    
+    def atualizar_data(self, data_vencimento=None):
+        #Atualiza a data de vencimento lendo do arquivo JSON
+        if data_vencimento is None:
+            data_vencimento = ler_data_vencimento()
+        
+        nova_data = datetime.strptime(data_vencimento, '%Y-%m-%d').date()
+        
+        # Só atualiza se a data realmente mudou
+        if nova_data != self.ultima_data:
+            self.data_venc = nova_data
+            self.ultima_data = nova_data
+            return True  # Indica que houve mudança
+        return False
     
     def criar_widgets(self):
         # Título
@@ -40,8 +53,25 @@ class JanelaDataVencimento:
         
         # Botão de atualização
         btn_atualizar = Button(self.master, text="Atualizar", 
-                             command=self.atualizar_status)
+                             command=self.forcar_atualizacao)
         btn_atualizar.grid(row=2, column=0, pady=5)
+    
+    def iniciar_verificacao_periodica(self):
+        """Inicia a verificação periódica do arquivo JSON"""
+        self.verificar_atualizacoes()
+    
+    def verificar_atualizacoes(self):
+        """Verifica se o arquivo JSON foi atualizado"""
+        if self.atualizar_data():  # Se a data mudou
+            self.atualizar_status()
+        
+        # Agenda a próxima verificação em 5 segundos (5000 ms)
+        self.master.after(5000, self.verificar_atualizacoes)
+    
+    def forcar_atualizacao(self):
+        """Força uma atualização imediata"""
+        if self.atualizar_data():
+            self.atualizar_status()
     
     def atualizar_status(self):
         # Limpa o frame anterior

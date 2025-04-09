@@ -2,6 +2,7 @@ from tkinter import *
 import threading
 import time
 from core.verificadores.inicial import verificacao_inicial
+from ui.janela_config import JanelaConfig
 from core.esp_tempo import tempo
 from ui.status_manager import StatusManager
 
@@ -31,9 +32,9 @@ class JanelaPlayStop:
                               font=12, command=self.parar, state=DISABLED)
         self.btn_parar.grid(column=1, row=0, padx=10, pady=10)
 
-        self.btn_parar = Button(self.master, text="⚙️ Config", width=10, 
-                              font=12, command=self.parar,)
-        self.btn_parar.grid(column=1, row=1, padx=10, pady=10)
+        self.btn_config = Button(self.master, text="⚙️ Config", width=10, 
+                              font=12, command=self.abrir_config)
+        self.btn_config.grid(column=1, row=1, padx=10, pady=10)
     
     def tarefa_demorada(self):
         while not self.parar_execucao and self.em_execucao:
@@ -56,6 +57,7 @@ class JanelaPlayStop:
         self.em_execucao = True
         self.parar_execucao = False
         self.btn_iniciar.config(text="▶️ Executando", bg='green', state=DISABLED)
+        self.btn_config.config(state=DISABLED)
         self.btn_parar.config(text="⏹️ Parar", bg='white', state=NORMAL)
         self.status_manager.update_status("Executando...")
         
@@ -66,11 +68,28 @@ class JanelaPlayStop:
     def parar(self):
         self.parar_execucao = True
         self.btn_parar.config(text="⏹️ Parando...", bg='red', state=DISABLED)
+        self.btn_config.config(state=DISABLED)
         self.status_manager.update_status("Parando o Sistema, espere finalizar o loop!")
+
+    def abrir_config(self):
+        # Cria uma nova janela de configuração
+        janela_config = Toplevel(self.master)
+        JanelaConfig(janela_config)
+        # Centraliza a janela
+        self.centralizar_janela(janela_config)
+    
+    def centralizar_janela(self, janela):
+        janela.update_idletasks()
+        width = janela.winfo_width()
+        height = janela.winfo_height()
+        x = (janela.winfo_screenwidth() // 2) - (width // 2)
+        y = (janela.winfo_screenheight() // 2) - (height // 2)
+        janela.geometry(f'+{x}+{y}')
     
     def atualizar_ui_parado(self):
         self.em_execucao = False
         self.btn_iniciar.config(text="▶️ Iniciar", bg='white', state=NORMAL)
+        self.btn_config.config(state=NORMAL)
         self.btn_parar.config(text="⏹️ Parado", bg='green', state=DISABLED)
         self.status_manager.update_status("Pronto para Inciar o Sistema")
     
