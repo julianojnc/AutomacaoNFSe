@@ -90,7 +90,7 @@ class JanelaPlayStop:
         self.em_execucao = False
         self.btn_iniciar.config(text="▶️ Iniciar", bg='white', state=NORMAL)
         self.btn_config.config(state=NORMAL)
-        self.btn_parar.config(text="⏹️ Parado", bg='green', state=DISABLED)
+        self.btn_parar.config(text="⏹️ Parado", bg='white', state=DISABLED)
         self.status_manager.update_status("Pronto para Inciar o Sistema")
     
     def ao_fechar(self):
