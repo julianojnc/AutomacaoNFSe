@@ -4,6 +4,8 @@ import time
 from core.verificadores.inicial import verificacao_inicial
 from ui.janela_config import JanelaConfig
 from core.esp_tempo import tempo
+from core.file_creator.backup_chaves import fazer_backup_diario
+from core.file_creator.arquivos_para_rede import enviar_arquivos_para_rede
 from ui.status_manager import StatusManager
 
 class JanelaPlayStop:
@@ -41,7 +43,8 @@ class JanelaPlayStop:
             print("Executando tarefa...")
             verificacao_inicial()
             tempo()
-            
+            fazer_backup_diario()
+            enviar_arquivos_para_rede()
             for i in range(10):  # Verifica a cada 0.1s se deve parar
                 if self.parar_execucao or not self.em_execucao:
                     break

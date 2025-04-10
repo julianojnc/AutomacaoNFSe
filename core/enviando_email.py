@@ -18,14 +18,13 @@ def enviar_email(isCancelada):
     pyautogui.doubleClick(pyautogui.locateOnScreen('core/imgs/CampoParaClicarNFSe.png'))
     # Fecha o PopUp
     pyautogui.click(pyautogui.locateOnScreen('core/imgs/ClosePopUp.png'))
+    time.sleep(2)
+    # Clica no botão de envio do email
+    pyautogui.click(pyautogui.locateOnScreen('core/imgs/EnviarEmail.png'))
 
     # Salva o arquivo na NFSe dentro de documentos
     from core.verificadores.save_file import save_file
     save_file()
-
-    time.sleep(2)
-    # Clica no botão de envio do email
-    pyautogui.click(pyautogui.locateOnScreen('core/imgs/EnviarEmail.png'))
 
     # Variável para armazenar o retorno da função arquivo_email
     assunto_email = arquivo_email()

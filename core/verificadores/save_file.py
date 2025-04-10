@@ -1,6 +1,6 @@
 import pyautogui
 import time
-pyautogui.PAUSE = 0.3
+pyautogui.PAUSE = 0.5
 
 # Procura a existência do botão para documentos e faz o processo para salvar na pasta NFSe
 def documents():
