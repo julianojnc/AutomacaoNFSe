@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 def ler_data_vencimento():
-    caminho_json = Path('C:/PrametrosAutomacaoNfse/dados_automacao.json')
+    caminho_json = Path('C:/ParametrosNFSe/dados_automacao.json')
     
     try:
         with open(caminho_json, 'r') as arquivo:

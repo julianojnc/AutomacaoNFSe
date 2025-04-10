@@ -27,6 +27,7 @@ def captura_nfse():
         # Valor copiado em uma variavel
         chave = pyperclip.paste().strip()
 
+        # Verificar se NFSe está cancelada
         from core.verificadores.nfse import nfse_cancelada
         isCancelada = nfse_cancelada()
 

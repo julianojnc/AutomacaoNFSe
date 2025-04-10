@@ -1,0 +1,59 @@
+import pyautogui
+import time
+pyautogui.PAUSE = 0.3
+
+# Procura a existência do botão para documentos e faz o processo para salvar na pasta NFSe
+def documents():
+    resultado = None
+    # Verifica o retorno de documento
+    while resultado is None:
+        try:
+            # Verifica Existência de Documentos na tela
+            if pyautogui.locateOnScreen('core/imgs/Documents.png'):
+                # Clica sobre Documentos, após digita N para selecionar a pasta NFSE
+                # Após Enter para salvar e Enter novamente para fechar a mensagem de sucesso
+                pyautogui.click(pyautogui.locateOnScreen('core/imgs/Documents.png'))
+                pyautogui.press('n')
+                pyautogui.press('enter')
+                time.sleep(1)
+                pyautogui.press('enter')
+
+                # Retorna um valor para finalizar o loop
+                resultado = 'doc'
+            else:
+                raise Exception("Imagem Documents não encontrada")
+        except:
+            try:
+                # Verifica a existência de Documentos já selecionado
+                if pyautogui.locateOnScreen('core/imgs/DocumentsGray.png'):
+                    # Clica sobre Documentos, após digita N para selecionar a pasta NFSE
+                    # Após Enter para salvar e Enter novamente para fechar a mensagem de sucesso
+                    pyautogui.click(pyautogui.locateOnScreen('core/imgs/DocumentsGray.png'))
+                    pyautogui.press('n')
+                    pyautogui.press('enter')
+                    time.sleep(1)
+                    pyautogui.press('enter')
+
+                    # Retorna um valor para finalizar o loop
+                    resultado = 'docselect'
+                else:
+                    raise Exception("Imagem DocumentsGray não encontrada")
+            except:
+                print('Aguardando mensagem...')
+
+# Procura a existência do botão para exportação dos arquivos e após chama a função para salvar em documentos
+def save_file():
+    # Verifica se Exportar Xml e PDF estão na tela
+        location_xml_pdf = None
+        # Enquanto XML/PDF não estiver na tela o loop é executado infinitamente
+        while (location_xml_pdf == None):
+            # Tente encontrar XML/PDF e clicar nele
+            try:
+                location_xml_pdf = pyautogui.locateOnScreen('core/imgs/ExportarXmlPdf.png')
+                time.sleep(0.5)
+                # Clica sobre o botão
+                pyautogui.click(pyautogui.locateOnScreen('core/imgs/ExportarXmlPdf.png'))
+                # Chama a função documents para salvar o arquivo na pasta
+                documents()
+            except Exception as e:
+                print('Procurando Botão Exportar XML e PDF... ',e)

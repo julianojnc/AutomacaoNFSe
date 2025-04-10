@@ -9,7 +9,7 @@ class JanelaConfig:
         self.master.geometry("400x200")
         self.master.resizable(False, False)
         
-        self.caminho_json = Path('C:/PrametrosAutomacaoNfse/dados_automacao.json')
+        self.caminho_json = Path('C:/ParametrosNFSe/dados_automacao.json')
         self.dados = self.carregar_configuracoes()
         
         self.criar_widgets()

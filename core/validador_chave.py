@@ -3,7 +3,7 @@ from core.enviando_email import enviar_email
 # Valida Chaves se já foram enviadas por email ou não
 # Valida se a nota foi cancelada ou não
 def validar_chave(chave, isCancelada):
-    with open('chaves-nfse.txt', 'r') as arquivo:
+    with open('C:/ParametrosNFSe/chaves-nfse.txt', 'r') as arquivo:
         linhas = arquivo.readlines()
 
     modificado = False
@@ -39,5 +39,5 @@ def validar_chave(chave, isCancelada):
 
     # Salva as alterações no arquivo APENAS se não houve erro no envio do email
     if modificado and resultado != "erro":  # <--- Aqui está a mudança principal
-        with open('chaves-nfse.txt', 'w') as arquivo:
+        with open('C:/ParametrosNFSe/chaves-nfse.txt', 'w') as arquivo:
             arquivo.writelines(linhas)

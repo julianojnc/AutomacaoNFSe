@@ -6,7 +6,7 @@ pyautogui.PAUSE = 0.3
 
 # Dados para envio de email lidos em um arquivo no c:
 def arquivo_email():
-    with open('C:/PrametrosAutomacaoNfse/dados_automacao.json', 'r') as arquivo:
+    with open('C:/ParametrosNFSe/dados_automacao.json', 'r') as arquivo:
         dados = json.load(arquivo)
         arquivo.close()
 
@@ -18,6 +18,11 @@ def enviar_email(isCancelada):
     pyautogui.doubleClick(pyautogui.locateOnScreen('core/imgs/CampoParaClicarNFSe.png'))
     # Fecha o PopUp
     pyautogui.click(pyautogui.locateOnScreen('core/imgs/ClosePopUp.png'))
+
+    # Salva o arquivo na NFSe dentro de documentos
+    from core.verificadores.save_file import save_file
+    save_file()
+
     time.sleep(2)
     # Clica no botão de envio do email
     pyautogui.click(pyautogui.locateOnScreen('core/imgs/EnviarEmail.png'))

@@ -13,7 +13,7 @@ def aba_emitidos_terceiros():
                 resultado = 'EmitidoTerceiro'
                 pyautogui.click('core/imgs/EmitidoPorTerceiros.png')
             else:
-                raise Exception("Imagem não encontrada Emitido por terceiro.")
+                raise Exception("Imagem EmitidoPorTerceiros não encontrada.")
         except:
             try:
                 # Verifica Existência de Emitido por terceiros já selecionado e clica nele
@@ -21,7 +21,7 @@ def aba_emitidos_terceiros():
                     resultado = 'EmitidoTerceiroSelecionado'
                     pyautogui.click('core/imgs/EmitidoPorTerceirosSelecionado.png')
                 else:
-                    raise Exception("Imagem não encontrada Emitido por terceiro selecionado.")
+                    raise Exception("Imagem EmitidoPorTerceirosSelecionado não encontrada.")
             except:
                 try:
                     # Verifica Existência de fechar mensagem da sefaz e clica nele
@@ -29,7 +29,7 @@ def aba_emitidos_terceiros():
                         resultado = 'FecharMsgBusca'
                         pyautogui.click('core/imgs/CloseMsgBusca.png')
                     else:
-                        raise Exception("Imagem não encontrada Fechar mensagem de busca sefaz.")
+                        raise Exception("Imagem CloseMsgBusca não encontrada.")
                 except:
                     print('Procurando fechar mensagem de busca da sefaz...')
 

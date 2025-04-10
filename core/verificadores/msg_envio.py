@@ -11,7 +11,7 @@ def msg_envio():
                 pyautogui.press('esc')
                 pyautogui.click(1191,117)
             else:
-                raise Exception("Imagem não encontrada")
+                raise Exception("Imagem ErroEnviarEmail não encontrada")
         except:
             try:
                 # Verifica a existência de mensagem Envio com Sucesso
@@ -19,7 +19,7 @@ def msg_envio():
                     resultado = "sucesso"
                     pyautogui.press('esc')
                 else:
-                    raise Exception("Imagem não encontrada")
+                    raise Exception("Imagem EmailEnviado não encontrada")
             except:
                 print('Aguardando mensagem...')
         

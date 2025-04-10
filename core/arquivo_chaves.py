@@ -4,7 +4,7 @@ import re
 def arquivo(nfse):
     try:
         # Lê as chaves existentes, removendo todos os prefixos/sufixos
-        with open('chaves-nfse.txt', 'r') as f:
+        with open('C:/ParametrosNFSe/chaves-nfse.txt', 'r') as f:
             chaves_existentes = set()
             for line in f:
                 line = line.strip()
@@ -22,7 +22,7 @@ def arquivo(nfse):
     
     # Adiciona as novas chaves no formato limpo (sem prefixos)
     if chaves_para_adicionar:
-        with open('chaves-nfse.txt', 'a') as arq:
+        with open('C:/ParametrosNFSe/chaves-nfse.txt', 'a') as arq:
             for chave in chaves_para_adicionar:
                 arq.write(chave + '\n')  # Grava no formato original, sem prefixos
     
