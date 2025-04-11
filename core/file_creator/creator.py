@@ -1,6 +1,7 @@
 import os
 import json
 
+# Gera os arquivos de configuração do sistema em c:
 def criar_estrutura_inicial():
     pasta_principal = r'C:\ParametrosNFSe'
     pasta_chaves = os.path.join(pasta_principal, 'Chaves')

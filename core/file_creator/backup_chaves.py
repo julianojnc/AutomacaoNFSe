@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 
+# Cria um novo arquivo txt dentro da pasta Chaves em C:/ParametrosNFSe
 def fazer_backup_diario():
     pasta_principal = r'C:\ParametrosNFSe'
     arquivo_txt = os.path.join(pasta_principal, 'chaves-nfse.txt')  # Arquivo original

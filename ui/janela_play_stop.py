@@ -6,6 +6,7 @@ from ui.janela_config import JanelaConfig
 from core.esp_tempo import tempo
 from core.file_creator.backup_chaves import fazer_backup_diario
 from core.file_creator.arquivos_para_rede import enviar_arquivos_para_rede
+from core.file_creator.limpar_arquivos import limpar_nfse_no_horario
 from ui.status_manager import StatusManager
 
 class JanelaPlayStop:
@@ -38,6 +39,7 @@ class JanelaPlayStop:
                               font=12, command=self.abrir_config)
         self.btn_config.grid(column=1, row=1, padx=10, pady=10)
     
+    # Executor do loop de tarefas, aqui é chamadas as funções para o funcionamento da aplicação
     def tarefa_demorada(self):
         while not self.parar_execucao and self.em_execucao:
             print("Executando tarefa...")
@@ -45,6 +47,7 @@ class JanelaPlayStop:
             tempo()
             fazer_backup_diario()
             enviar_arquivos_para_rede()
+            limpar_nfse_no_horario()
             for i in range(10):  # Verifica a cada 0.1s se deve parar
                 if self.parar_execucao or not self.em_execucao:
                     break
@@ -53,6 +56,7 @@ class JanelaPlayStop:
         print("Tarefa finalizada!")
         self.master.after(0, self.atualizar_ui_parado)
     
+    # Função que executa a aplicação
     def iniciar(self):
         if self.em_execucao:
             return
@@ -68,12 +72,14 @@ class JanelaPlayStop:
         self.thread.daemon = True
         self.thread.start()
     
+    # Função que para a aplicação
     def parar(self):
         self.parar_execucao = True
         self.btn_parar.config(text="⏹️ Parando...", bg='red', state=DISABLED)
         self.btn_config.config(state=DISABLED)
         self.status_manager.update_status("Parando o Sistema, espere finalizar o loop!")
 
+    # Função que chama a janela de configurações
     def abrir_config(self):
         # Cria uma nova janela de configuração
         janela_config = Toplevel(self.master)
@@ -81,6 +87,7 @@ class JanelaPlayStop:
         # Centraliza a janela
         self.centralizar_janela(janela_config)
     
+    # Centraliza a janela de configurações
     def centralizar_janela(self, janela):
         janela.update_idletasks()
         width = janela.winfo_width()
@@ -89,6 +96,7 @@ class JanelaPlayStop:
         y = (janela.winfo_screenheight() // 2) - (height // 2)
         janela.geometry(f'+{x}+{y}')
     
+    # Atualiza a interface quando o sistema estiver parado
     def atualizar_ui_parado(self):
         self.em_execucao = False
         self.btn_iniciar.config(text="▶️ Iniciar", bg='white', state=NORMAL)
@@ -102,7 +110,6 @@ class JanelaPlayStop:
             self.thread.join(timeout=1)
         self.master.destroy()
 
-# Inicia a aplicação
 if __name__ == "__main__":
     JanelaPlayStop()
     

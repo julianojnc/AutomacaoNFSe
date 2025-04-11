@@ -98,8 +98,5 @@ class JanelaDataVencimento:
                 Label(self.frame_status, text=f"ATENÇÃO: Faltam {dias} dias!",
                      font=('Arial', 12, 'bold'), fg='red').pack(anchor='w')
 
-# Inicia a aplicação
 if __name__ == "__main__":
-    # Pode alterar a data passando como parâmetro:
-    # JanelaDataVencimento('2025-06-30')
     JanelaDataVencimento()

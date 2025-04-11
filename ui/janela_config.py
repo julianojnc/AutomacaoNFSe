@@ -14,6 +14,7 @@ class JanelaConfig:
         
         self.criar_widgets()
     
+    # Carrega os dados que estão dentro do json de configuração
     def carregar_configuracoes(self):
         try:
             with open(self.caminho_json, 'r') as arquivo:
@@ -26,6 +27,7 @@ class JanelaConfig:
                 "dt-venc-cert-dig": ""
             }
     
+    # Salva configurações alteradas
     def salvar_configuracoes(self):
         try:
             with open(self.caminho_json, 'w') as arquivo:
