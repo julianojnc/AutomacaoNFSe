@@ -57,11 +57,11 @@ class JanelaDataVencimento:
         btn_atualizar.grid(row=2, column=0, pady=5)
     
     def iniciar_verificacao_periodica(self):
-        """Inicia a verificação periódica do arquivo JSON"""
+        # Verifica o arquivo json
         self.verificar_atualizacoes()
     
     def verificar_atualizacoes(self):
-        """Verifica se o arquivo JSON foi atualizado"""
+        # Verifica possível atualização no arquivo json
         if self.atualizar_data():  # Se a data mudou
             self.atualizar_status()
         
@@ -69,7 +69,7 @@ class JanelaDataVencimento:
         self.master.after(5000, self.verificar_atualizacoes)
     
     def forcar_atualizacao(self):
-        """Força uma atualização imediata"""
+        # Força a atualização da interface com os novos parâmetros
         if self.atualizar_data():
             self.atualizar_status()
     

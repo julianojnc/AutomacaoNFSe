@@ -39,7 +39,3 @@ def captura_nfse():
         pyautogui.press('down')
 
         i += 1 
-
-    # # Finalizando o loop o timer será executado novamente
-    # from core.esp_tempo import tempo
-    # tempo()

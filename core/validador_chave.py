@@ -18,14 +18,14 @@ def validar_chave(chave, isCancelada):
         chave_pura = linha.replace("OK-", "").replace("-CANCELADA", "").strip()
 
         if chave_pura == chave:
-            # Caso 1: Processamento de cancelamento
+            # Processamento de cancelamento
             if isCancelada is not None:
                 if not linha.endswith("-CANCELADA"):
                     # Se ainda não foi marcada como cancelada
                     enviar_email_flag = True
                     linhas[i] = f"OK-{chave_pura}-CANCELADA\n"
                     modificado = True
-            # Caso 2: Processamento normal
+            # Processamento normal
             else:
                 if not linha.startswith("OK-") and not linha.endswith("-CANCELADA"):
                     # Se é uma chave nova (sem marcações)
@@ -37,7 +37,7 @@ def validar_chave(chave, isCancelada):
     if enviar_email_flag:
         resultado = enviar_email(isCancelada)
 
-    # Salva as alterações no arquivo APENAS se não houve erro no envio do email
-    if modificado and resultado != "erro":  # <--- Aqui está a mudança principal
+    # Salva as alterações no arquivo apenas se não houve erro no envio do email
+    if modificado and resultado != "erro":
         with open('C:/ParametrosNFSe/chaves-nfse.txt', 'w') as arquivo:
             arquivo.writelines(linhas)

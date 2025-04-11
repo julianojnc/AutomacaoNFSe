@@ -1,5 +1,6 @@
 import time
 import pyautogui
+import logging
 
 # Verifica a existencia de NFSe
 def nfse():
@@ -15,7 +16,7 @@ def nfse():
             pyautogui.click(pyautogui.locateOnScreen('core/imgs/NFSeListagem.png'))
             return location_nfse
         except Exception as e:
-            print("Procurando NFSe's... ",e)
+            logging.info("Procurando NFSe's... ",e)
     
         return location_nfse
     i += 1
@@ -30,7 +31,7 @@ def nfse_cancelada():
         try:
             location_nfse_cancelada = pyautogui.locateOnScreen('core/imgs/Cancelada.png')
         except Exception as e:
-            print('Verificando se a nota está cancelada...',e)
+            logging.info('Verificando se a nota está cancelada...',e)
         return location_nfse_cancelada
 
 def verificar_nfse():

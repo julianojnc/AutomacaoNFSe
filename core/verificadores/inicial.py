@@ -1,5 +1,6 @@
 import time
 import pyautogui
+import logging
 pyautogui.PAUSE = 0.3
 
 # Verifica a existencia de Emitidos por Terceiros
@@ -13,7 +14,7 @@ def aba_emitidos_terceiros():
                 resultado = 'EmitidoTerceiro'
                 pyautogui.click('core/imgs/EmitidoPorTerceiros.png')
             else:
-                raise Exception("Imagem EmitidoPorTerceiros não encontrada.")
+                logging.info("Imagem EmitidoPorTerceiros não encontrada.")
         except:
             try:
                 # Verifica Existência de Emitido por terceiros já selecionado e clica nele
@@ -21,7 +22,7 @@ def aba_emitidos_terceiros():
                     resultado = 'EmitidoTerceiroSelecionado'
                     pyautogui.click('core/imgs/EmitidoPorTerceirosSelecionado.png')
                 else:
-                    raise Exception("Imagem EmitidoPorTerceirosSelecionado não encontrada.")
+                    logging.info("Imagem EmitidoPorTerceirosSelecionado não encontrada.")
             except:
                 try:
                     # Verifica Existência de fechar mensagem da sefaz e clica nele
@@ -29,9 +30,9 @@ def aba_emitidos_terceiros():
                         resultado = 'FecharMsgBusca'
                         pyautogui.click('core/imgs/CloseMsgBusca.png')
                     else:
-                        raise Exception("Imagem CloseMsgBusca não encontrada.")
+                        logging.info("Imagem CloseMsgBusca não encontrada.")
                 except:
-                    print('Procurando fechar mensagem de busca da sefaz...')
+                    logging.info('Procurando fechar mensagem de busca da sefaz...')
 
 # Verifica a existencia de TIPO
 def tipo():
@@ -43,7 +44,7 @@ def tipo():
             location_tipo_selecionado = pyautogui.locateOnScreen('core/imgs/TipoSelecionado.png')
             time.sleep(0.5)
         except Exception as e:
-            print('Procurando Tipo Aberto... ',e)
+            logging.info('Procurando Tipo Aberto... ',e)
         i += 1
     
     if location_tipo_selecionado == None:
@@ -57,7 +58,7 @@ def tipo():
                 time.sleep(0.5)
                 pyautogui.click(pyautogui.locateOnScreen('core/imgs/Tipo.png'))
             except Exception as e:
-                print('Procurando Tipo... ',e)
+                logging.info('Procurando Tipo... ',e)
 
 # Verifica a existencia de CTe
 def cte():
@@ -69,7 +70,7 @@ def cte():
             location_cte_open = pyautogui.locateOnScreen('core/imgs/CTeListagemOpen.png')
             time.sleep(0.5)
         except Exception as e:
-            print("Procurando CTe's Abertas... ",e)
+            logging.info("Procurando CTe's Abertas... ",e)
         i += 1
 
     if location_cte_open != None:
@@ -84,7 +85,7 @@ def cte():
                 time.sleep(0.5)
                 pyautogui.doubleClick(pyautogui.locateOnScreen('core/imgs/CTeListagem.png'))
             except Exception as e:
-                print("Procurando CTe's... ",e)
+                logging.info("Procurando CTe's... ",e)
             return location_cte
         i += 1
 
@@ -98,7 +99,7 @@ def nfe():
             location_nfe_open = pyautogui.locateOnScreen('core/imgs/NFeListagemOpen.png')
             time.sleep(0.5)
         except Exception as e:
-            print("Procurando NFe's Abertas... ",e)
+            logging.info("Procurando NFe's Abertas... ",e)
         i += 1
 
     if location_nfe_open != None:
@@ -113,7 +114,7 @@ def nfe():
                 time.sleep(0.5)
                 pyautogui.doubleClick(pyautogui.locateOnScreen('core/imgs/NFeListagem.png'))
             except Exception as e:
-                print("Procurando NFe's... ",e)
+                logging.info("Procurando NFe's... ",e)
             return location_nfe
         i += 1
 

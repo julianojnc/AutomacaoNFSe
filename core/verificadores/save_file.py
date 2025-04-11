@@ -1,4 +1,5 @@
 import pyautogui
+import logging
 import time
 pyautogui.PAUSE = 0.5
 
@@ -21,7 +22,7 @@ def documents():
                 # Retorna um valor para finalizar o loop
                 resultado = 'doc'
             else:
-                raise Exception("Imagem Documents não encontrada")
+                logging.info("Imagem Documents não encontrada")
         except:
             try:
                 # Verifica a existência de Documentos já selecionado
@@ -37,9 +38,23 @@ def documents():
                     # Retorna um valor para finalizar o loop
                     resultado = 'docselect'
                 else:
-                    raise Exception("Imagem DocumentsGray não encontrada")
+                    logging.info("Imagem DocumentsGray não encontrada")
             except:
-                print('Aguardando mensagem...')
+                try:
+                # Verifica a existência de NFSe já selecionado
+                    if pyautogui.locateOnScreen('core/imgs/NFSeGray.png'):
+                        # Clica sobre NFSe após Enter para salvar e Enter novamente para fechar a mensagem de sucesso
+                        pyautogui.click(pyautogui.locateOnScreen('core/imgs/NFSeGray.png'))
+                        pyautogui.press('enter')
+                        time.sleep(1)
+                        pyautogui.press('enter')
+
+                        # Retorna um valor para finalizar o loop
+                        resultado = 'nfseselect'
+                    else:
+                        logging.info("Imagem NFSeGray não encontrada")
+                except:
+                    print('Aguardando mensagem...')
 
 # Procura a existência do botão para exportação dos arquivos e após chama a função para salvar em documentos
 def save_file():
@@ -56,4 +71,4 @@ def save_file():
                 # Chama a função documents para salvar o arquivo na pasta
                 documents()
             except Exception as e:
-                print('Procurando Botão Exportar XML e PDF... ',e)
+                logging.info('Procurando Botão Exportar XML e PDF... ',e)

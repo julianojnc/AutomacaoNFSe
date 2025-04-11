@@ -1,6 +1,8 @@
 import os
 import shutil
+import logging
 from datetime import datetime
+from core.file_creator.verificar_nfse_canceladas import mover_notas_canceladas
 
 def enviar_arquivos_para_rede():
     # Caminhos de origem e destino
@@ -18,18 +20,18 @@ def enviar_arquivos_para_rede():
 
     # Verifica se a pasta de origem existe
     if not os.path.exists(origem):
-        print(f'[ERRO] Pasta de origem não encontrada: "{origem}"')
+        logging.error(f'Pasta de origem não encontrada: "{origem}"')
         return
 
     try:
         # Cria a estrutura de pastas (ano/mês/dia-mês-ano) se não existir
         os.makedirs(destino_final, exist_ok=True)
-        print(f'[INFO] Pasta de destino criada: "{destino_final}"')
+        logging.info(f'Pasta de destino criada: "{destino_final}"')
     except PermissionError:
-        print(f'[ERRO] Sem permissão para criar pasta em "{destino_final}"')
+        logging.error(f'Sem permissão para criar pasta em "{destino_final}"')
         return
     except Exception as e:
-        print(f'[ERRO] Falha ao acessar rede: {e}')
+        logging.error(f'Falha ao acessar rede: {e}')
         return
 
     # Copia os arquivos para o destino
@@ -42,22 +44,24 @@ def enviar_arquivos_para_rede():
             try:
                 shutil.copy2(caminho_origem, caminho_destino)
                 arquivos_copiados.append(arquivo)
-                print(f'[OK] Copiado: {arquivo}')
+                logging.info(f'[OK] Copiado: {arquivo}')
             except Exception as e:
-                print(f'[ERRO] Falha ao copiar {arquivo}: {e}')
+                logging.error(f'Falha ao copiar {arquivo}: {e}')
 
     # Relatório final
-    print('\n' + '='*50)
+    logging.info('\n' + '='*50)
     if arquivos_copiados:
-        print(f'\n[RESULTADO] Backup concluído com sucesso!')
-        print(f'Destino: {destino_final}')
-        print(f'Total de arquivos copiados: {len(arquivos_copiados)}')
+        logging.info(f'\n[RESULTADO] Backup concluído com sucesso!')
+        logging.info(f'Destino: {destino_final}')
+        logging.info(f'Total de arquivos copiados: {len(arquivos_copiados)}')
     else:
-        print('[AVISO] Nenhum arquivo foi copiado')
-    print('='*50)
+        logging.info('[AVISO] Nenhum arquivo foi copiado')
+    logging.info('='*50)
+
+    mover_notas_canceladas()
 
 if __name__ == "__main__":
-    print('\n' + '='*50)
-    print('INICIANDO BACKUP DE ARQUIVOS NFSe'.center(50))
-    print('='*50 + '\n')
+    logging.info('\n' + '='*50)
+    logging.info('INICIANDO BACKUP DE ARQUIVOS NFSe'.center(50))
+    logging.info('='*50 + '\n')
     enviar_arquivos_para_rede()

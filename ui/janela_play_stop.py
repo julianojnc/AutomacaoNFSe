@@ -1,6 +1,7 @@
 from tkinter import *
 import threading
 import time
+import logging
 from core.verificadores.inicial import verificacao_inicial
 from ui.janela_config import JanelaConfig
 from core.esp_tempo import tempo
@@ -8,6 +9,8 @@ from core.file_creator.backup_chaves import fazer_backup_diario
 from core.file_creator.arquivos_para_rede import enviar_arquivos_para_rede
 from core.file_creator.limpar_arquivos import limpar_nfse_no_horario
 from ui.status_manager import StatusManager
+
+logging.basicConfig(filename='C:\ParametrosNFSe\Logs\info.log', level=logging.INFO, format="%(asctime)s => %(filename)s linha: %(lineno)d : %(levelname)s = %(message)s")
 
 class JanelaPlayStop:
     def __init__(self, master, status_manager):
@@ -42,7 +45,7 @@ class JanelaPlayStop:
     # Executor do loop de tarefas, aqui é chamadas as funções para o funcionamento da aplicação
     def tarefa_demorada(self):
         while not self.parar_execucao and self.em_execucao:
-            print("Executando tarefa...")
+            logging.info("Executando tarefa...")
             verificacao_inicial()
             tempo()
             fazer_backup_diario()
@@ -53,7 +56,7 @@ class JanelaPlayStop:
                     break
                 time.sleep(0.1)
         
-        print("Tarefa finalizada!")
+        logging.info("Tarefa finalizada!")
         self.master.after(0, self.atualizar_ui_parado)
     
     # Função que executa a aplicação

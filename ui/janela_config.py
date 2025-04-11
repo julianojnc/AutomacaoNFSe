@@ -1,5 +1,6 @@
 from tkinter import *
 import json
+import logging
 from pathlib import Path
 
 class JanelaConfig:
@@ -34,7 +35,7 @@ class JanelaConfig:
                 json.dump(self.dados, arquivo, indent=4)
             return True
         except Exception as e:
-            print(f"Erro ao salvar configurações: {e}")
+            logging.error(f"Erro ao salvar configurações: {e}")
             return False
     
     def criar_widgets(self):
