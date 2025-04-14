@@ -5,9 +5,9 @@ import logging
 from core.verificadores.inicial import verificacao_inicial
 from ui.janela_config import JanelaConfig
 from core.esp_tempo import tempo
-from core.file_creator.backup_chaves import fazer_backup_diario
+from core.file_creator.backup_chaves_log import fazer_backup_diario
 from core.file_creator.arquivos_para_rede import enviar_arquivos_para_rede
-from core.file_creator.limpar_arquivos import limpar_nfse_no_horario
+from core.file_creator.limpar_arquivos import limpar_nfse_log_no_horario
 from ui.status_manager import StatusManager
 
 logging.basicConfig(filename='C:\ParametrosNFSe\Logs\info.log', level=logging.INFO, format="%(asctime)s => %(filename)s linha: %(lineno)d : %(levelname)s = %(message)s")
@@ -50,7 +50,7 @@ class JanelaPlayStop:
             tempo()
             fazer_backup_diario()
             enviar_arquivos_para_rede()
-            limpar_nfse_no_horario()
+            limpar_nfse_log_no_horario()
             for i in range(10):  # Verifica a cada 0.1s se deve parar
                 if self.parar_execucao or not self.em_execucao:
                     break
