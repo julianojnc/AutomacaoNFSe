@@ -24,7 +24,7 @@ def enviar_email(isCancelada):
 
     # Salva o arquivo na NFSe dentro de documentos
     from core.verificadores.save_file import save_file
-    save_file()
+    save_file(isCancelada)
 
     # Variável para armazenar o retorno da função arquivo_email
     assunto_email = arquivo_email()
@@ -35,10 +35,6 @@ def enviar_email(isCancelada):
     pyautogui.write(assunto_email["email"])
 
     if isCancelada is not None:
-        pyautogui.click(pyautogui.locateOnScreen('core/imgs/SelecionarArquivosEmail.png'))
-        pyautogui.press('up')
-        pyautogui.press('space')
-
         # Adiciona Assunto ao Email quando Cancelada a NFSe
         pyautogui.click(476,161)
         pyautogui.hotkey('ctrl', 'a')

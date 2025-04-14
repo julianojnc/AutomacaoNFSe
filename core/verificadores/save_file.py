@@ -57,18 +57,25 @@ def documents():
                     print('Aguardando mensagem...')
 
 # Procura a existência do botão para exportação dos arquivos e após chama a função para salvar em documentos
-def save_file():
+def save_file(isCancelada):
+        
+    if isCancelada is not None:
+        pyautogui.click(pyautogui.locateOnScreen('core/imgs/SelecionarArquivosEmail.png'))
+        pyautogui.press('down')
+        pyautogui.press('up')
+        pyautogui.press('space')
+
     # Verifica se Exportar Xml e PDF estão na tela
-        location_xml_pdf = None
-        # Enquanto XML/PDF não estiver na tela o loop é executado infinitamente
-        while (location_xml_pdf == None):
-            # Tente encontrar XML/PDF e clicar nele
-            try:
-                location_xml_pdf = pyautogui.locateOnScreen('core/imgs/ExportarXmlPdf.png')
-                time.sleep(0.5)
-                # Clica sobre o botão
-                pyautogui.click(pyautogui.locateOnScreen('core/imgs/ExportarXmlPdf.png'))
-                # Chama a função documents para salvar o arquivo na pasta
-                documents()
-            except Exception as e:
-                logging.info('Procurando Botão Exportar XML e PDF... ',e)
+    location_xml_pdf = None
+    # Enquanto XML/PDF não estiver na tela o loop é executado infinitamente
+    while (location_xml_pdf == None):
+        # Tente encontrar XML/PDF e clicar nele
+        try:
+            location_xml_pdf = pyautogui.locateOnScreen('core/imgs/ExportarXmlPdf.png')
+            time.sleep(0.5)
+            # Clica sobre o botão
+            pyautogui.click(pyautogui.locateOnScreen('core/imgs/ExportarXmlPdf.png'))
+            # Chama a função documents para salvar o arquivo na pasta
+            documents()
+        except Exception as e:
+            logging.info('Procurando Botão Exportar XML e PDF... ',e)
