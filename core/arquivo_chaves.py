@@ -1,7 +1,7 @@
 import re
 
 # Salva as notas no arquivo
-def arquivo(nfse):
+def arquivo(nfse, cnpj_name):
     try:
         # Lê as chaves existentes, removendo todos os prefixos/sufixos
         with open('C:/ParametrosNFSe/chaves-nfse.txt', 'r') as f:
@@ -9,7 +9,7 @@ def arquivo(nfse):
             for line in f:
                 line = line.strip()
                 # Remove OK- no início e -CANCELADA no final, se existirem
-                chave_pura = line.replace("OK-", "").replace("-CANCELADA", "")
+                chave_pura = line.replace(f"{cnpj_name} OK-", "").replace("-CANCELADA", "")
                 chaves_existentes.add(chave_pura)
     except FileNotFoundError:
         chaves_existentes = set()

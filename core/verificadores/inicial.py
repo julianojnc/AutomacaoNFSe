@@ -118,16 +118,16 @@ def nfe():
             return location_nfe
         i += 1
 
-def verificacao_inicial():
+def verificacao_inicial(cnpj_name):
 
-    aba_emitidos_terceiros()
+    aba_emitidos_terceiros() # Clica na aba emitidos por terceiro
 
-    tipo()
-
-    cte()
+    tipo() # Clica em Tipo
+ 
+    cte() # Fecha Cte
     
-    nfe()
+    nfe() # Fecha Nfe
     
     # Verificar se tem NFSe's e começar o processo de envio por email validando as chaves
     from core.verificadores.nfse import verificar_nfse
-    verificar_nfse()
+    verificar_nfse(cnpj_name)

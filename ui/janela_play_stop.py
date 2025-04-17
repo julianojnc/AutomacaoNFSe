@@ -2,7 +2,7 @@ from tkinter import *
 import threading
 import time
 import logging
-from core.verificadores.inicial import verificacao_inicial
+from core.verificadores.cnpj import busca_cnpj
 from ui.janela_config import JanelaConfig
 from core.esp_tempo import tempo
 from core.file_creator.backup_chaves_log import fazer_backup_diario
@@ -46,11 +46,11 @@ class JanelaPlayStop:
     def tarefa_demorada(self):
         while not self.parar_execucao and self.em_execucao:
             logging.info("Executando tarefa...")
-            verificacao_inicial()
-            tempo()
-            fazer_backup_diario()
-            enviar_arquivos_para_rede()
-            limpar_nfse_log_no_horario()
+            busca_cnpj() # Verificação inicial do sistema e chamada das demais funções do sistema
+            tempo() # Tempo de 1 hora para o próximo loop
+            fazer_backup_diario() # Faz o Backup dos arquivos log e chaves
+            enviar_arquivos_para_rede() # Envia os arquivos para a pasta na rede
+            limpar_nfse_log_no_horario() # Limpa o log e o arquivo de chaves entre as meia noite e uma da manha
             for i in range(10):  # Verifica a cada 0.1s se deve parar
                 if self.parar_execucao or not self.em_execucao:
                     break

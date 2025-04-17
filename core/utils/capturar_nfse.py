@@ -5,14 +5,14 @@ from core.arquivo_chaves import arquivo
 from core.validador_chave import validar_chave
 
 # Função para capturar todas as NFSe
-def captura_nfse():
+def captura_nfse(cnpj_name):
     time.sleep(2)
     # Copiando todos os dados das NFSe
     pyautogui.hotkey('ctrl', 'c')
     todas_nfse = pyperclip.paste()
 
     # Passando para a função arquivo todas as NFSe e recebendo a quantidade das mesmas
-    quantidade = arquivo(todas_nfse)
+    quantidade = arquivo(todas_nfse, cnpj_name)
     # Clique para baixo para selecionar a primeira nota da lista
     pyautogui.press('down')
 
@@ -32,7 +32,7 @@ def captura_nfse():
         isCancelada = nfse_cancelada()
 
         # Passando o valor copiado para a função validar_chave
-        validar_chave(chave, isCancelada)
+        validar_chave(chave, isCancelada, cnpj_name)
 
         time.sleep(1)
         # Clica para baixo para selecionar a próxima nota

@@ -34,20 +34,15 @@ def nfse_cancelada():
             logging.info('Verificando se a nota está cancelada...',e)
         return location_nfse_cancelada
 
-def verificar_nfse():
-    # Verificando se os campos NFe e CTe estão abertos
-    from core.verificadores.inicial import nfe, cte
-    cte()
-    nfe()
-
-    # Amazenando o retorno da função
-    location_nfse_return = nfse()
-
-    # Se o retorno for vazio o timer será executado
-    # Se não a captura das nfse será executada
-    if location_nfse_return is None:
-        from core.esp_tempo import tempo
-        tempo()
-    else:
+def verificar_nfse(cnpj_name):
+    logging.info("Iniciando verificação de NFSe...")
+    
+    # Verificar se há NFSe
+    nfse_location = nfse()
+    
+    if nfse_location:
+        logging.info("NFSe encontrada, iniciando captura...")
         from core.utils.capturar_nfse import captura_nfse
-        captura_nfse()
+        captura_nfse(cnpj_name)
+    else:
+        logging.info("Nenhuma NFSe encontrada")

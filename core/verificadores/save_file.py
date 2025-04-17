@@ -4,7 +4,7 @@ import time
 pyautogui.PAUSE = 0.5
 
 # Procura a existência do botão para documentos e faz o processo para salvar na pasta NFSe
-def documents():
+def documents(cnpj_name):
     resultado = None
     # Verifica o retorno de documento
     while resultado is None:
@@ -15,9 +15,7 @@ def documents():
                 # Após Enter para salvar e Enter novamente para fechar a mensagem de sucesso
                 pyautogui.click(pyautogui.locateOnScreen('core/imgs/Documents.png'))
                 pyautogui.press('n')
-                pyautogui.press('enter')
-                time.sleep(1)
-                pyautogui.press('enter')
+                pasta_nfse(cnpj_name)
 
                 # Retorna um valor para finalizar o loop
                 resultado = 'doc'
@@ -31,9 +29,7 @@ def documents():
                     # Após Enter para salvar e Enter novamente para fechar a mensagem de sucesso
                     pyautogui.click(pyautogui.locateOnScreen('core/imgs/DocumentsGray.png'))
                     pyautogui.press('n')
-                    pyautogui.press('enter')
-                    time.sleep(1)
-                    pyautogui.press('enter')
+                    pasta_nfse(cnpj_name)
 
                     # Retorna um valor para finalizar o loop
                     resultado = 'docselect'
@@ -45,9 +41,7 @@ def documents():
                     if pyautogui.locateOnScreen('core/imgs/NFSeGray.png'):
                         # Clica sobre NFSe após Enter para salvar e Enter novamente para fechar a mensagem de sucesso
                         pyautogui.click(pyautogui.locateOnScreen('core/imgs/NFSeGray.png'))
-                        pyautogui.press('enter')
-                        time.sleep(1)
-                        pyautogui.press('enter')
+                        pasta_nfse(cnpj_name)
 
                         # Retorna um valor para finalizar o loop
                         resultado = 'nfseselect'
@@ -56,8 +50,32 @@ def documents():
                 except:
                     print('Aguardando mensagem...')
 
+# Selecioando a pasta onde será salvo os arquivos e separando por cnpj
+def pasta_nfse(cnpj_name):
+
+    # Loop para a verificação da pasta
+    location = None
+
+    # Enquanto location não tiver valor será executado novamente
+    while location is None:
+        try:
+            # Se a localização da imagem com o mesmo nome do primeiro item da lista não for vazio
+            # Será chamada a função selecionando_pasta que recebe o parametro cnpj_name e o primeiro item da lista
+            # elif e else continua a mesma lógica só que para os demais itens da lista
+            if pyautogui.locateOnScreen(f'core/imgs/NFSeBlue.png'):
+                pyautogui.click(pyautogui.locateOnScreen(f'core/imgs/NFSeBlue.png'))
+                pyautogui.write(cnpj_name)
+                time.sleep(1)
+                pyautogui.press('enter')                
+                time.sleep(1)
+                pyautogui.press('enter')
+                location = 'encontrado'
+
+        except Exception as e:
+            logging.info('Procurando Pasta NFSe...',e)                
+
 # Procura a existência do botão para exportação dos arquivos e após chama a função para salvar em documentos
-def save_file(isCancelada):
+def save_file(isCancelada, cnpj_name):
         
     if isCancelada is not None:
         pyautogui.click(pyautogui.locateOnScreen('core/imgs/SelecionarArquivosEmail.png'))
@@ -76,6 +94,6 @@ def save_file(isCancelada):
             # Clica sobre o botão
             pyautogui.click(pyautogui.locateOnScreen('core/imgs/ExportarXmlPdf.png'))
             # Chama a função documents para salvar o arquivo na pasta
-            documents()
+            documents(cnpj_name)
         except Exception as e:
             logging.info('Procurando Botão Exportar XML e PDF... ',e)

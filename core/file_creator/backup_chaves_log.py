@@ -15,7 +15,7 @@ def fazer_backup_diario():
     # Data atual para nomear os backups
     data_hoje = datetime.now().strftime('%Y-%m-%d')
     
-    # 1. Backup do arquivo chaves-nfse.txt
+    # Backup do arquivo chaves-nfse.txt
     if os.path.exists(arquivo_chaves) and os.path.getsize(arquivo_chaves) > 0:
         # Garante que a pasta Chaves existe
         os.makedirs(pasta_chaves, exist_ok=True)
@@ -34,7 +34,7 @@ def fazer_backup_diario():
                 f.write(conteudo_atual)
             logging.info(f'Backup de chaves atualizado: {nome_copia_chaves}')
     
-    # 2. Backup do arquivo info.log
+    # Backup do arquivo info.log
     if os.path.exists(arquivo_log) and os.path.getsize(arquivo_log) > 0:
         # Garante que a pasta BKP_LOG existe
         os.makedirs(pasta_bkp_log, exist_ok=True)

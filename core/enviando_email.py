@@ -13,7 +13,7 @@ def arquivo_email():
         return dados
 
 # Função de envio para o email clicando na nota selecionada no momento
-def enviar_email(isCancelada):
+def enviar_email(isCancelada, cnpj_name):
     # Dois cliques na nota selecionada no momento
     pyautogui.doubleClick(pyautogui.locateOnScreen('core/imgs/CampoParaClicarNFSe.png'))
     # Fecha o PopUp
@@ -24,7 +24,7 @@ def enviar_email(isCancelada):
 
     # Salva o arquivo na NFSe dentro de documentos
     from core.verificadores.save_file import save_file
-    save_file(isCancelada)
+    save_file(isCancelada, cnpj_name)
 
     # Variável para armazenar o retorno da função arquivo_email
     assunto_email = arquivo_email()
@@ -38,12 +38,12 @@ def enviar_email(isCancelada):
         # Adiciona Assunto ao Email quando Cancelada a NFSe
         pyautogui.click(476,161)
         pyautogui.hotkey('ctrl', 'a')
-        pyautogui.write(assunto_email["assunto-cancelada"])
+        pyautogui.write(f"{cnpj_name} - {assunto_email["assunto-cancelada"]}")
     else:
         # Adiciona Assunto ao Email
         pyautogui.click(476,161)
         pyautogui.hotkey('ctrl', 'a')
-        pyautogui.write(assunto_email["assunto"])
+        pyautogui.write(f"{cnpj_name} - {assunto_email["assunto"]}")
 
     # Clica no Botão para enviar
     pyautogui.click(pyautogui.locateOnScreen('core/imgs/EnviarEmailAgora.png'))
