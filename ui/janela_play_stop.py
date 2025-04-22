@@ -32,15 +32,15 @@ class JanelaPlayStop:
         # Botões
         self.btn_iniciar = Button(self.master, text="▶️ Iniciar", width=10, 
                                 font=12, command=self.iniciar)
-        self.btn_iniciar.grid(column=0, row=0, padx=10, pady=10)
+        self.btn_iniciar.grid(column=0, row=0, padx=5, pady=5)
         
         self.btn_parar = Button(self.master, text="⏹️ Parar", width=10, 
                               font=12, command=self.parar, state=DISABLED)
-        self.btn_parar.grid(column=1, row=0, padx=10, pady=10)
+        self.btn_parar.grid(column=1, row=0, padx=5, pady=5)
 
         self.btn_config = Button(self.master, text="⚙️ Config", width=10, 
                               font=12, command=self.abrir_config)
-        self.btn_config.grid(column=1, row=1, padx=10, pady=10)
+        self.btn_config.grid(column=1, row=1)
     
     # Executor do loop de tarefas, aqui é chamadas as funções para o funcionamento da aplicação
     def tarefa_demorada(self):

@@ -3,100 +3,165 @@ from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 import json
 from pathlib import Path
+from itertools import cycle
 
-def ler_data_vencimento():
+def ler_dados_certificados():
     caminho_json = Path('C:/ParametrosNFSe/dados_automacao.json')
+    certificados = {
+        "3D": "dt-venc-cert-dig-3d",
+        "Aura": "dt-venc-cert-dig-aura",
+        "Camburi": "dt-venc-cert-dig-camburi",
+        "CasaAcqua": "dt-venc-cert-dig-casaacqua",
+        "Facom": "dt-venc-cert-dig-facom",
+        "Flexu": "dt-venc-cert-dig-flexu",
+        "Matrix": "dt-venc-cert-dig-matrix"
+    }
     
     try:
         with open(caminho_json, 'r') as arquivo:
             dados = json.load(arquivo)
-            return dados.get('dt-venc-cert-dig')  # Retorna a data do JSON
+            return {nome: dados.get(chave, '2025-04-08') for nome, chave in certificados.items()}
     except (FileNotFoundError, json.JSONDecodeError):
-        return '2025-04-08'  # Valor padrão se o arquivo não existir ou for inválido
+        return {nome: '2025-04-08' for nome in certificados.keys()}
 
-class JanelaDataVencimento:
-    def __init__(self, master, data_vencimento=None):
+class JanelaCertificados:
+    def __init__(self, master):
         self.master = master
-        self.master.title("Vencimento Certificado")
+        self.master.title("Vencimento de Certificados Digitais")
         self.master.attributes('-topmost', True)
         self.master.resizable(False, False)
         
-        self.ultima_data = None  # Para armazenar a última data conhecida
-        self.atualizar_data(data_vencimento)
+        self.certificados = {}
+        self.ultimos_dados = None
         
         self.criar_widgets()
-        self.atualizar_status()
+        self.atualizar_todos_certificados()
         self.iniciar_verificacao_periodica()
-    
-    def atualizar_data(self, data_vencimento=None):
-        #Atualiza a data de vencimento lendo do arquivo JSON
-        if data_vencimento is None:
-            data_vencimento = ler_data_vencimento()
-        
-        nova_data = datetime.strptime(data_vencimento, '%Y-%m-%d').date()
-        
-        # Só atualiza se a data realmente mudou
-        if nova_data != self.ultima_data:
-            self.data_venc = nova_data
-            self.ultima_data = nova_data
-            return True  # Indica que houve mudança
-        return False
     
     def criar_widgets(self):
         # Título
-        Label(self.master, text="Status do Certificado Digital", 
-             font=('Arial', 14, 'bold')).grid(row=0, column=0, pady=5)
+        Label(self.master, text="Status dos Certificados Digitais", 
+             font=('Arial', 12, 'bold')).grid(row=0, column=0, columnspan=2, pady=1)
         
-        # Frame principal
-        self.frame_status = Frame(self.master)
-        self.frame_status.grid(row=1, column=0, padx=10, pady=5)
+        # Frame principal com scrollbar
+        self.canvas = Canvas(self.master)
+        self.frame_status = Frame(self.canvas)
+        
+        self.frame_status.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(
+                scrollregion=self.canvas.bbox("all")
+            )
+        )
+        
+        self.canvas.create_window((0, 0), window=self.frame_status, anchor="nw")
+        self.canvas.configure(yscrollcommand=self)
+        
+        self.canvas.grid(row=1, column=0, sticky="nsew")
         
         # Botão de atualização
         btn_atualizar = Button(self.master, text="Atualizar", 
                              command=self.forcar_atualizacao)
-        btn_atualizar.grid(row=2, column=0, pady=5)
+        btn_atualizar.grid(row=2, column=0, columnspan=2, pady=5)
+        
+        # Configuração de grid para expansão
+        self.master.grid_rowconfigure(1, weight=1)
+        self.master.grid_columnconfigure(0, weight=1)
     
     def iniciar_verificacao_periodica(self):
-        # Verifica o arquivo json
         self.verificar_atualizacoes()
     
     def verificar_atualizacoes(self):
-        # Verifica possível atualização no arquivo json
-        if self.atualizar_data():  # Se a data mudou
-            self.atualizar_status()
+        dados_atuais = ler_dados_certificados()
         
-        # Agenda a próxima verificação em 5 segundos (5000 ms)
+        if dados_atuais != self.ultimos_dados:
+            self.ultimos_dados = dados_atuais
+            self.atualizar_todos_certificados()
+        
         self.master.after(5000, self.verificar_atualizacoes)
     
     def forcar_atualizacao(self):
-        # Força a atualização da interface com os novos parâmetros
-        if self.atualizar_data():
-            self.atualizar_status()
+        dados_atuais = ler_dados_certificados()
+        self.ultimos_dados = dados_atuais
+        self.atualizar_todos_certificados()
     
-    def atualizar_status(self):
+    def atualizar_todos_certificados(self):
+        color_text = ("white", "red")
+        color_bg = ("red", "black")
+
+        def flash_color(self, color_txt, color_bg):
+            self.config(foreground = next(color_txt))
+            self.config(bg = next(color_bg))
+            self.after(500, flash_color, self, color_txt, color_bg)
+
         # Limpa o frame anterior
         for widget in self.frame_status.winfo_children():
             widget.destroy()
         
+        dados = ler_dados_certificados()
         data_atual = date.today()
-        delta = relativedelta(self.data_venc, data_atual)
-        dias = (self.data_venc - data_atual).days
         
-        # Mostra sempre os dias restantes
-        Label(self.frame_status, text=f"Dias restantes: {dias}",
-             font=('Arial', 12), fg='blue').pack(anchor='w')
-        
-        # Adiciona mensagem de status conforme a situação
-        if dias < 0:
-            Label(self.frame_status, text="CERTIFICADO VENCIDO!",
-                 font=('Arial', 12, 'bold'), fg='red').pack(anchor='w')
-        elif dias <= 31:  # Considera 1 mês como 31 dias
-            if delta.months == 1 and delta.days >= 0:
-                Label(self.frame_status, text="ALERTA: 1 mês para o vencimento!",
-                     font=('Arial', 12, 'bold'), fg='red').pack(anchor='w')
-            else:
-                Label(self.frame_status, text=f"ATENÇÃO: Faltam {dias} dias!",
-                     font=('Arial', 12, 'bold'), fg='red').pack(anchor='w')
+        for i, (nome, data_str) in enumerate(dados.items()):
+            try:
+                data_venc = datetime.strptime(data_str, '%Y-%m-%d').date()
+                dias = (data_venc - data_atual).days
+                
+                # Frame para cada certificado
+                frame_cert = Frame(self.frame_status, bd=1, relief=GROOVE, padx=5, pady=5)
+                frame_cert.pack(fill=X, padx=5, pady=2)
+                
+                # Nome do certificado
+                Label(frame_cert, text=nome, font=('Arial', 10, 'bold'), 
+                     width=9, anchor='w').pack(side=LEFT)
+                
+                # Data de vencimento
+                Label(frame_cert, text=data_venc.strftime('%d/%m/%Y'), 
+                     font=('Arial', 10), width=7).pack(side=LEFT)
+                
+                # Dias restantes
+                lbl_dias = Label(frame_cert, text=f"{dias} dias", 
+                               font=('Arial', 10, 'bold'), width=8)
+                lbl_dias.pack(side=LEFT)
+                
+                # Status
+                if dias < 0:
+                    lbl_status = Label(frame_cert, text="VENCIDO", 
+                                     font=('Arial', 10, 'bold'),  width=7, fg='red')
+                    lbl_dias.config(fg='red')
+                    flash_color(lbl_status, cycle(color_text), cycle(color_bg))
+
+                elif dias <= 7:
+                    lbl_status = Label(frame_cert, text="URGENTE", 
+                                     font=('Arial', 10, 'bold'), width=7, fg='red')
+                    lbl_dias.config(fg='red')
+                    flash_color(lbl_status, cycle(color_text), cycle(color_bg))
+
+                elif dias <= 31:
+                    lbl_status = Label(frame_cert, text="ATENÇÃO", 
+                                     font=('Arial', 10, 'bold'), width=7, fg='orange')
+                    lbl_dias.config(fg='orange')
+
+                    color_text = ("white", "orange")
+                    color_bg = ("orange", "black")
+                    flash_color(lbl_status, cycle(color_text), cycle(color_bg))
+
+                else:
+                    lbl_status = Label(frame_cert, text="OK", 
+                                     font=('Arial', 10, 'bold'), width=7, fg='green')
+                    lbl_dias.config(fg='green')
+                
+                lbl_status.pack(side=LEFT, padx=(10,0))
+                
+            except ValueError:
+                # Caso a data seja inválida
+                frame_cert = Frame(self.frame_status, bd=1, relief=GROOVE, padx=5, pady=5)
+                frame_cert.pack(fill=X, padx=5, pady=2)
+                
+                Label(frame_cert, text=nome, font=('Arial', 10, 'bold'), 
+                     width=10, anchor='w').pack(side=LEFT)
+                Label(frame_cert, text="Data inválida", fg='red').pack(side=LEFT)
 
 if __name__ == "__main__":
-    JanelaDataVencimento()
+    root = Tk()
+    app = JanelaCertificados(root)
+    root.mainloop()

@@ -38,7 +38,13 @@ def criar_estrutura_inicial():
                 "email": "",
                 "assunto": "NFSe",
                 "assunto-cancelada": "NFSe-Cancelada",
-                "dt-venc-cert-dig": "2025-08-04"
+                "dt-venc-cert-dig-3d": "2025-08-04",
+                "dt-venc-cert-dig-aura": "2025-08-04",
+                "dt-venc-cert-dig-camburi": "2025-08-04",
+                "dt-venc-cert-dig-casaacqua": "2025-08-04",
+                "dt-venc-cert-dig-facom": "2025-08-04",
+                "dt-venc-cert-dig-flexu": "2025-08-04",
+                "dt-venc-cert-dig-matrix": "2025-08-04"
             },
             pasta_principal / 'chaves-nfse.txt': ""
         }

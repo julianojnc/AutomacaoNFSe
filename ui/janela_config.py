@@ -7,7 +7,7 @@ class JanelaConfig:
     def __init__(self, master):
         self.master = master
         self.master.title("Configurações")
-        self.master.geometry("400x200")
+        self.master.geometry("450x400")
         self.master.resizable(False, False)
         
         self.caminho_json = Path('C:/ParametrosNFSe/dados_automacao.json')
@@ -25,7 +25,13 @@ class JanelaConfig:
                 "email": "",
                 "assunto": "",
                 "assunto-cancelada": "",
-                "dt-venc-cert-dig": ""
+                "dt-venc-cert-dig-3d": "",
+                "dt-venc-cert-dig-aura": "",
+                "dt-venc-cert-dig-camburi": "",
+                "dt-venc-cert-dig-casaacqua": "",
+                "dt-venc-cert-dig-facom": "",
+                "dt-venc-cert-dig-flexu": "",
+                "dt-venc-cert-dig-matrix": ""
             }
     
     # Salva configurações alteradas
@@ -61,15 +67,51 @@ class JanelaConfig:
         self.entry_assunto_cancelada.grid(row=2, column=1, pady=5)
         self.entry_assunto_cancelada.insert(0, self.dados.get("assunto-cancelada", ""))
         
-        # Data vencimento
-        Label(frame_principal, text="Data Venc. Cert:").grid(row=3, column=0, sticky=W, pady=5)
-        self.entry_data_venc = Entry(frame_principal, width=40)
-        self.entry_data_venc.grid(row=3, column=1, pady=5)
-        self.entry_data_venc.insert(0, self.dados.get("dt-venc-cert-dig", ""))
+        # Data vencimento 3D
+        Label(frame_principal, text="Data Venc. Cert. 3D:").grid(row=3, column=0, sticky=W, pady=5)
+        self.entry_data_venc_3D = Entry(frame_principal, width=40)
+        self.entry_data_venc_3D.grid(row=3, column=1, pady=5)
+        self.entry_data_venc_3D.insert(0, self.dados.get("dt-venc-cert-dig-3d", ""))
+
+        # Data vencimento Aura
+        Label(frame_principal, text="Data Venc. Cert. Aura:").grid(row=4, column=0, sticky=W, pady=5)
+        self.entry_data_venc_Aura = Entry(frame_principal, width=40)
+        self.entry_data_venc_Aura.grid(row=4, column=1, pady=5)
+        self.entry_data_venc_Aura.insert(0, self.dados.get("dt-venc-cert-dig-aura", ""))
         
+        # Data vencimento Camburi
+        Label(frame_principal, text="Data Venc. Cert. Camburi:").grid(row=5, column=0, sticky=W, pady=5)
+        self.entry_data_venc_Camburi = Entry(frame_principal, width=40)
+        self.entry_data_venc_Camburi.grid(row=5, column=1, pady=5)
+        self.entry_data_venc_Camburi.insert(0, self.dados.get("dt-venc-cert-dig-camburi", ""))
+
+        # Data vencimento CasaAcqua
+        Label(frame_principal, text="Data Venc. Cert. CasaAcqua:").grid(row=6, column=0, sticky=W, pady=5)
+        self.entry_data_venc_CasaAcqua = Entry(frame_principal, width=40)
+        self.entry_data_venc_CasaAcqua.grid(row=6, column=1, pady=5)
+        self.entry_data_venc_CasaAcqua.insert(0, self.dados.get("dt-venc-cert-dig-casaacqua", ""))
+
+        # Data vencimento Facom
+        Label(frame_principal, text="Data Venc. Cert. Facom:").grid(row=7, column=0, sticky=W, pady=5)
+        self.entry_data_venc_Facom = Entry(frame_principal, width=40)
+        self.entry_data_venc_Facom.grid(row=7, column=1, pady=5)
+        self.entry_data_venc_Facom.insert(0, self.dados.get("dt-venc-cert-dig-facom", ""))
+
+        # Data vencimento Flexu
+        Label(frame_principal, text="Data Venc. Cert. Flexu:").grid(row=8, column=0, sticky=W, pady=5)
+        self.entry_data_venc_Flexu = Entry(frame_principal, width=40)
+        self.entry_data_venc_Flexu.grid(row=8, column=1, pady=5)
+        self.entry_data_venc_Flexu.insert(0, self.dados.get("dt-venc-cert-dig-flexu", ""))
+
+        # Data vencimento Matrix
+        Label(frame_principal, text="Data Venc. Cert. Matrix:").grid(row=9, column=0, sticky=W, pady=5)
+        self.entry_data_venc_Matrix = Entry(frame_principal, width=40)
+        self.entry_data_venc_Matrix.grid(row=9, column=1, pady=5)
+        self.entry_data_venc_Matrix.insert(0, self.dados.get("dt-venc-cert-dig-matrix", ""))
+
         # Botões
         frame_botoes = Frame(frame_principal)
-        frame_botoes.grid(row=4, column=0, columnspan=2, pady=15)
+        frame_botoes.grid(row=10, column=0, columnspan=2, pady=15)
         
         btn_salvar = Button(frame_botoes, text="Salvar", command=self.salvar)
         btn_salvar.pack(side=LEFT, padx=10)
@@ -82,7 +124,13 @@ class JanelaConfig:
             "email": self.entry_email.get(),
             "assunto": self.entry_assunto.get(),
             "assunto-cancelada": self.entry_assunto_cancelada.get(),
-            "dt-venc-cert-dig": self.entry_data_venc.get()
+            "dt-venc-cert-dig-3d": self.entry_data_venc_3D.get(),
+            "dt-venc-cert-dig-aura": self.entry_data_venc_Aura.get(),
+            "dt-venc-cert-dig-camburi": self.entry_data_venc_Camburi.get(),
+            "dt-venc-cert-dig-casaacqua": self.entry_data_venc_CasaAcqua.get(),
+            "dt-venc-cert-dig-facom": self.entry_data_venc_Facom.get(),
+            "dt-venc-cert-dig-flexu": self.entry_data_venc_Flexu.get(),
+            "dt-venc-cert-dig-matrix": self.entry_data_venc_Matrix.get()
         }
         
         if self.salvar_configuracoes():
