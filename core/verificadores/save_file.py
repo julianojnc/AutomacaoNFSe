@@ -48,7 +48,31 @@ def documents(cnpj_name):
                     else:
                         logging.info("Imagem NFSeGray não encontrada")
                 except:
-                    print('Aguardando mensagem...')
+                    try:
+                        # Verifica a existência de NFSe já selecionado
+                        if pyautogui.locateOnScreen('core/imgs/NFSeBlue.png'):
+                            # Clica sobre NFSe após Enter para salvar e Enter novamente para fechar a mensagem de sucesso
+                            pyautogui.click(pyautogui.locateOnScreen('core/imgs/NFSeBlue.png'))
+                            pasta_nfse(cnpj_name)
+
+                            # Retorna um valor para finalizar o loop
+                            resultado = 'nfseselect'
+                        else:
+                            logging.info("Imagem NFSeBlue não encontrada")
+                    except:
+                        try:
+                            # Verifica a existência de NFSe já selecionado
+                            if pyautogui.locateOnScreen('core/imgs/NFSe.png'):
+                                # Clica sobre NFSe após Enter para salvar e Enter novamente para fechar a mensagem de sucesso
+                                pyautogui.click(pyautogui.locateOnScreen('core/imgs/NFSe.png'))
+                                pasta_nfse(cnpj_name)
+
+                                # Retorna um valor para finalizar o loop
+                                resultado = 'nfseselect'
+                            else:
+                                logging.info("Imagem NFSe não encontrada")
+                        except:
+                            print('Aguardando mensagem...')
 
 # Selecioando a pasta onde será salvo os arquivos e separando por cnpj
 def pasta_nfse(cnpj_name):

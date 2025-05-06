@@ -98,8 +98,11 @@ def nfe():
         try:
             location_nfe_open = pyautogui.locateOnScreen('core/imgs/NFeListagemOpen.png')
             time.sleep(0.5)
-        except Exception as e:
-            logging.info("Procurando NFe's Abertas... ",e)
+        except: 
+            try:
+                location_nfe_open = pyautogui.locateOnScreen('core/imgs/NFeListagemOpenGray.png')
+            except Exception as e:
+                logging.info("Procurando NFe's Abertas... ",e)
         i += 1
 
     if location_nfe_open != None:

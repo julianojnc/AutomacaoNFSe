@@ -4,7 +4,7 @@ import pyautogui
 # timer
 def tempo():
     # Cronometro de 1 hora
-    for i in range(0, 10):
+    for i in range(0, 3600):
         sys.stdout.write("\r{}".format(i))
         sys.stdout.flush()
         time.sleep(1)

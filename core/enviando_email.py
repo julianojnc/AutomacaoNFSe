@@ -19,6 +19,11 @@ def enviar_email(isCancelada, cnpj_name):
     # Fecha o PopUp
     pyautogui.click(pyautogui.locateOnScreen('core/imgs/ClosePopUp.png'))
     time.sleep(2)
+    
+    # Data de Emissão da nota
+    from core.verificadores.captura_data import capturar_data_nota
+    data_emissao = capturar_data_nota()
+    
     # Clica no botão de envio do email
     pyautogui.click(pyautogui.locateOnScreen('core/imgs/EnviarEmail.png'))
 
@@ -38,12 +43,12 @@ def enviar_email(isCancelada, cnpj_name):
         # Adiciona Assunto ao Email quando Cancelada a NFSe
         pyautogui.click(476,161)
         pyautogui.hotkey('ctrl', 'a')
-        pyautogui.write(f"{cnpj_name} - {assunto_email["assunto-cancelada"]}")
+        pyautogui.write(f"{cnpj_name} - {assunto_email["assunto-cancelada"]} - Emitida em: {data_emissao}")
     else:
         # Adiciona Assunto ao Email
         pyautogui.click(476,161)
         pyautogui.hotkey('ctrl', 'a')
-        pyautogui.write(f"{cnpj_name} - {assunto_email["assunto"]}")
+        pyautogui.write(f"{cnpj_name} - {assunto_email["assunto"]} - Emitida em: {data_emissao}")
 
     # Clica no Botão para enviar
     pyautogui.click(pyautogui.locateOnScreen('core/imgs/EnviarEmailAgora.png'))
